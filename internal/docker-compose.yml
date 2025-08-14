@@ -1,21 +1,37 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:16
-    container_name: pgdb
+    container_name: food_delivery_db
     restart: always
     environment:
       POSTGRES_DB: app_db
       POSTGRES_USER: app_user
       POSTGRES_PASSWORD: secret
     ports:
-      - "5432:5432"
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app_user -d app_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   flyway:
     image: flyway/flyway:10
-    command: -url=jdbc:postgresql://db:5432/app_db -user=app_user -password=secret -locations=filesystem:/migrations migrate
+    command: >
+      -url=jdbc:postgresql://db:5432/app_db 
+      -user=app_user 
+      -password=secret 
+      -locations=filesystem:/flyway/sql
+      -baselineOnMigrate=true
+      migrate
     volumes:
-      - ./migrations:/migrations
+      - ./migrations:/flyway/sql
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    restart: "no"
+
+volumes:
+  postgres_data:
