@@ -73,4 +73,5 @@ func (j *JWTService) ValidateToken(tokenString string) (*Claims, error) {
 	//ToDO 2. Проверить подпись
 	//ToDO 3. Извлечь Claims
 	//ToDO 4. Проверить что токен валидный
+	return nil, nil
 }
