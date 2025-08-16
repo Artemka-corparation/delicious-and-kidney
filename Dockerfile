@@ -1,17 +1,12 @@
-FROM golang:1.23-alpine
-
-RUN apk add --no-cache git
+FROM golang:1.24.3-alpine
 
 WORKDIR /app
 
-COPY go.mod ./
-COPY go.sum ./
-
-RUN go mod download
+COPY go.mod go.sum
 
 COPY . .
 
-RUN go build -o main cmd/server/main.go
+RUN go mod tidy && go build -o main ./cmd/server
 
 EXPOSE 8080
 

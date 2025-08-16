@@ -3,10 +3,11 @@ package auth
 import (
 	"crypto/rand"
 	"encoding/hex"
-	"github.com/golang-jwt/jwt/v5"
 	"log"
 	"os"
 	"time"
+
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type Claims struct {
