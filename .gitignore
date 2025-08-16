@@ -1,0 +1,3 @@
+data/postgres-data/
+data/redis-data/
+go.mod

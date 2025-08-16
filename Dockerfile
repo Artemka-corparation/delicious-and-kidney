@@ -6,7 +6,7 @@ COPY go.mod go.sum
 
 COPY . .
 
-RUN go mod tidy && go build -o main ./cmd/server
+RUN go mod tidy && go build -o main ./cmd/auth-service
 
 EXPOSE 8080
 
