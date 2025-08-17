@@ -1,9 +1,7 @@
 package user
 
-import "os/user"
-
-type UserInterface interface {
-	Create(user *user.User) (*User, error)
+type UserRepositoryInterface interface {
+	Create(user *User) (*User, error)
 	FindById(id int) (*User, error)
 	FindByEmail(email string) (*User, error)
 	Update(user *User) (*User, error)
