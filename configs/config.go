@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	Db   DbConfig
-	Auth AuthConfig
+	SqlDb DbConfig
+	Auth  AuthConfig
 }
 
 type DbConfig struct {
@@ -25,7 +25,7 @@ func LoadConfig() *Config {
 		log.Println("Error loading .env file, using default config")
 	}
 	return &Config{
-		Db: DbConfig{
+		SqlDb: DbConfig{
 			Dsn: os.Getenv("DSN"),
 		},
 		Auth: AuthConfig{
