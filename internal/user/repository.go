@@ -18,7 +18,7 @@ func (repo *UserRepository) Create(user *User) (*User, error) {
 	return user, nil
 }
 
-func (repo *UserRepository) FindById(Id int) (*User, error) {
+func (repo *UserRepository) FindById(Id uint) (*User, error) {
 	var user User
 	result := repo.database.First(&user, Id)
 	if result.Error != nil {

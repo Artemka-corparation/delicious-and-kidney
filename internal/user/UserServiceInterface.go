@@ -2,7 +2,7 @@ package user
 
 type UserRepositoryInterface interface {
 	Create(user *User) (*User, error)
-	FindById(id int) (*User, error)
+	FindById(id uint) (*User, error)
 	FindByEmail(email string) (*User, error)
 	Update(user *User) (*User, error)
 	UpdateFields(id uint, updates map[string]interface{}) error

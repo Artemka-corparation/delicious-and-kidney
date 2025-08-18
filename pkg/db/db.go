@@ -11,7 +11,7 @@ type Db struct {
 }
 
 func NewDb(conf *configs.Config) (*Db, error) {
-	db, err := gorm.Open(postgres.Open(conf.Db.Dns), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(conf.SqlDb.Dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
