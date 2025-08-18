@@ -18,12 +18,6 @@ func main() {
 		log.Fatal("Failed to connect to database:", err)
 	}
 
-	// Автомиграция
-	err = database.AutoMigrate(&user.User{})
-	if err != nil {
-		log.Fatal("Failed to migrate:", err)
-	}
-
 	// Создаем репозиторий и хендлер
 	userRepo := user.NewUserRepository(database)
 	userHandler := user.NewUserHandler(userRepo)
