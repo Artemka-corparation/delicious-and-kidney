@@ -9,3 +9,8 @@ type UserRepositoryInterface interface {
 	Delete(id uint) error
 	HardDelete(id uint) error
 }
+
+type UserServiceInterface interface {
+	GetProfile(Id uint) (*UserResponse, error)
+	UpdateProfile(Id uint, req *UpdateUserRequest) (*UserResponse, error)
+}

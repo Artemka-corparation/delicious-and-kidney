@@ -1,1 +1,4 @@
-package graphql_api
+package main
+
+func main() {
+}
