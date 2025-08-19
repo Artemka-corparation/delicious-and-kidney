@@ -25,3 +25,19 @@ type UserDto struct {
 	CreatedAt     time.Time `json:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at"`
 }
+
+type UserResponse struct {
+	ID            uint      `json:"id"`
+	Name          string    `json:"name"`
+	Email         string    `json:"email"`
+	Phone         string    `json:"phone"`
+	Role          string    `json:"role"`
+	EmailVerified bool      `json:"email_verified"`
+	PhoneVerified bool      `json:"phone_verified"`
+	CreatedAt     time.Time `json:"created_at"`
+}
+
+type UpdateUserRequest struct {
+	Name  *string `json:"name,omitempty"`
+	Phone *string `json:"phone,omitempty"`
+}

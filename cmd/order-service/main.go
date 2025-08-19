@@ -1,1 +1,1 @@
-package order_service
+package main

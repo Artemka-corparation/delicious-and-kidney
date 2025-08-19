@@ -1,1 +1,1 @@
-package restaurant_service
+package main
