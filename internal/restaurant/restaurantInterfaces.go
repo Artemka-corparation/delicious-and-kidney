@@ -25,7 +25,7 @@ type service interface {
 	DeleteRestaurant(id uint, ownerID uint) error
 	ActivateRestaurant(id uint, ownerID uint) error
 	DeactivateRestaurant(id uint, ownerID uint) error
-	SetFeaturedStatus(id uint, featured bool) error // Только для админов
+	SetFeaturedStatus(id uint, featured bool, userRole string) error // Только для админов
 	GetMyRestaurants(ownerID uint, limit, offset int) ([]RestaurantResponse, error)
 	GetAllRestaurants(limit, offset int) ([]RestaurantResponse, error)
 	SearchRestaurants(query string, limit, offset int) ([]RestaurantResponse, error)
