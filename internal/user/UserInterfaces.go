@@ -1,6 +1,6 @@
 package user
 
-type UserRepositoryInterface interface {
+type Repository interface {
 	Create(user *User) (*User, error)
 	FindById(id uint) (*User, error)
 	FindByEmail(email string) (*User, error)
@@ -10,7 +10,7 @@ type UserRepositoryInterface interface {
 	HardDelete(id uint) error
 }
 
-type UserServiceInterface interface {
+type Service interface {
 	GetProfile(Id uint) (*UserResponse, error)
 	UpdateProfile(Id uint, req *UpdateUserRequest) (*UserResponse, error)
 }
