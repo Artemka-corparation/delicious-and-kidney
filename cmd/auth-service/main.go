@@ -20,14 +20,7 @@ func main() {
 	authRepo := auth.NewAuthRepository(database)
 	authService := auth.NewAuthService(authRepo)
 	authHandler := auth.NewAuthHandler(authService)
-
 	router := gin.Default()
-	api := router.Group("/api")
-	{
-		users := api.Group("/login")
-		{
-			users.GET("/:id", authHandler.Login)
-		}
-	}
+	authHandler.RegisterRoutes(router)
 	router.Run(":8080")
 }

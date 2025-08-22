@@ -3,6 +3,8 @@ package user
 import (
 	"delicious-and-kidney/pkg/Errors"
 	"errors"
+	"time"
+
 	"gorm.io/gorm"
 )
 
@@ -55,4 +57,20 @@ func (service *UserService) UpdateProfile(Id uint, req *UpdateUserRequest) (*Use
 		return nil, err
 	}
 	return service.GetProfile(Id)
+}
+
+func (service *UserService) CreateUser(user *User) (*UserResponse, error) {
+	_, err := service.userRepo.Create(user)
+	if err != nil {
+		return nil, err
+	}
+	return &UserResponse{
+		ID:            user.Id,
+		Name:          user.Name,
+		Email:         user.Email,
+		Phone:         user.Role,
+		EmailVerified: user.EmailVerified,
+		PhoneVerified: user.PhoneVerified,
+		CreatedAt:     time.Time{},
+	}, nil
 }

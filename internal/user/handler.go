@@ -1,9 +1,10 @@
 package user
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 type UserHandler struct {
@@ -20,6 +21,7 @@ func (h *UserHandler) RegisterRoutes(router *gin.Engine) {
 	{
 		users.GET("/:id", h.GetUser)
 		users.PATCH("/:id", h.UpdateUser)
+		users.POST("/", h.CreateUser)
 	}
 }
 
@@ -61,4 +63,18 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": userUpdate})
+}
+
+func (h *UserHandler) CreateUser(c *gin.Context) {
+	var req User
+	errJSON := c.ShouldBindJSON(&req)
+	if errJSON != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": errJSON.Error()})
+		return
+	}
+	createdUser, errCreate := h.userService.CreateUser(&req)
+	if errCreate != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Error with created user"})
+	}
+	c.JSON(http.StatusOK, gin.H{"data": createdUser})
 }

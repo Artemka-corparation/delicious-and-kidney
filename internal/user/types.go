@@ -3,16 +3,16 @@ package user
 import "time"
 
 type User struct {
-	Id            uint      `gorm:"primarykey"`
-	Name          string    `gorm:"not null" json:"name"`
-	Email         string    `gorm:"unique;not null" json:"email" validate:"required,email"`
-	Phone         string    `gorm:"size:20" json:"phone"`
-	PasswordHash  string    `gorm:"not null" json:"-"`
-	Role          string    `gorm:"default:customer;check:role IN ('customer','restaurant_owner','courier','admin')"`
-	EmailVerified bool      `gorm:"default:false"`
-	PhoneVerified bool      `gorm:"default:false"`
-	CreatedAt     time.Time `gorm:"autoCreateTime"`
-	UpdatedAt     time.Time `gorm:"autoUpdateTime"`
+	Id            uint      `json:"id" gorm:"primary"`
+	Name          string    `json:"name" gorm:"not null"`
+	Email         string    `json:"email" gorm:"unique;not null" validate:"required,email"`
+	Phone         string    `json:"phone" gorm:"size:20" `
+	PasswordHash  string    `json:"passwordHash" gorm:"not null"`
+	Role          string    `json:"role" gorm:"default:customer;check:role IN ('customer','restaurant_owner','courier','admin')"`
+	EmailVerified bool      `json:"emailVerified" gorm:"default:false"`
+	PhoneVerified bool      `json:"phoneVerified" gorm:"default:false"`
+	CreatedAt     time.Time `json:"createdAt" gorm:"autoCreateTime"`
+	UpdatedAt     time.Time `json:"updatedAt" gorm:"autoUpdateTime"`
 }
 
 type UserDto struct {

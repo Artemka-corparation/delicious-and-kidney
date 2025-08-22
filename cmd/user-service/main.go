@@ -23,15 +23,7 @@ func main() {
 	userRepo := user.NewUserRepository(database)
 	userService := user.NewUserService(userRepo)
 	userHandler := user.NewUserHandler(userService)
-
 	router := gin.Default()
-	api := router.Group("/api")
-	{
-		users := api.Group("/users")
-		{
-			users.GET("/:id", userHandler.GetUser)
-			users.PATCH("/:id", userHandler.UpdateUser)
-		}
-	}
+	userHandler.RegisterRoutes(router)
 	router.Run(":8081")
 }
