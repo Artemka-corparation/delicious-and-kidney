@@ -4,8 +4,9 @@ import (
 	"delicious-and-kidney/configs"
 	"delicious-and-kidney/internal/user"
 	"delicious-and-kidney/pkg/db"
-	"github.com/gin-gonic/gin"
 	"log"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -32,5 +33,5 @@ func main() {
 			users.PATCH("/:id", userHandler.UpdateUser)
 		}
 	}
-	router.Run(":8080")
+	router.Run(":8081")
 }

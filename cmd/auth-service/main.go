@@ -29,5 +29,5 @@ func main() {
 			users.GET("/:id", authHandler.Login)
 		}
 	}
-	router.Run(":8081")
+	router.Run(":8080")
 }
