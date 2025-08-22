@@ -52,6 +52,8 @@ services:
       dockerfile: Dockerfile
       args:
         SERVICE_NAME: auth-service
+    env_file:
+      - .env
     ports:
       - "8080:8080"
     depends_on:
@@ -64,6 +66,8 @@ services:
       dockerfile: Dockerfile
       args:
         SERVICE_NAME: user-service
+    env_file:
+      - .env
     ports:
       - "8081:8081"
     depends_on:
