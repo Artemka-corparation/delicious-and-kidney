@@ -8,4 +8,6 @@ var (
 	ErrRestaurantNotFound = errors.New("restaurant not found")
 	ErrOwnerNotFound      = errors.New("owner not found")
 	ErrUnauthorized       = errors.New("unauthorized")
+	ErrPromoCodeNotFound  = errors.New("promo code not found")
+	ErrorPromoMessage     = errors.New("Promo code is inactive")
 )

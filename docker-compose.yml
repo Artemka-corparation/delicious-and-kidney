@@ -75,3 +75,17 @@ services:
       - flyway
       - redis
 
+  promo_code:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: promoCode-service
+    env_file:
+      - .env
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db
+      - flyway
+      - redis
