@@ -3,6 +3,7 @@ package main
 import (
 	"delicious-and-kidney/configs"
 	"delicious-and-kidney/internal/auth"
+	"delicious-and-kidney/internal/user"
 	"delicious-and-kidney/pkg/db"
 	"log"
 
@@ -18,7 +19,9 @@ func main() {
 	}
 
 	authRepo := auth.NewAuthRepository(database)
-	authService := auth.NewAuthService(authRepo)
+	userRepo := user.NewUserRepository(database)
+	jwtService := auth.NewJWTService(configs.LoadConfig().Auth.Secret)
+	authService := auth.NewAuthService(authRepo, userRepo, jwtService)
 	authHandler := auth.NewAuthHandler(authService)
 	router := gin.Default()
 	authHandler.RegisterRoutes(router)
