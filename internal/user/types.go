@@ -41,3 +41,16 @@ type UpdateUserRequest struct {
 	Name  *string `json:"name,omitempty"`
 	Phone *string `json:"phone,omitempty"`
 }
+
+type CreateUserRequest struct {
+	Name     string `json:"name" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
+	Phone    string `json:"phone"`
+	Password string `json:"password" validate:"required,min=8"`
+	Role     string `json:"role"`
+}
+
+type ChangePasswordRequest struct {
+	OldPassword string `json:"old_password" binding:"required"`
+	NewPassword string `json:"new_password" binding:"required,min=8"`
+}

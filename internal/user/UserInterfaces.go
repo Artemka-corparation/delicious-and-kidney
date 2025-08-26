@@ -13,5 +13,9 @@ type Repository interface {
 type Service interface {
 	GetProfile(Id uint) (*UserResponse, error)
 	UpdateProfile(Id uint, req *UpdateUserRequest) (*UserResponse, error)
-	CreateUser(user *User) (*UserResponse, error)
+	CreateUser(req *CreateUserRequest) (*UserResponse, error)
+	ChangePassword(userID uint, oldPassword, newPassword string) error
+	DeactivateAccount(userID uint) error
+	DeleteAccount(userID uint) error
+	ActivateAccount(userID uint) error
 }

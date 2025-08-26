@@ -3,8 +3,6 @@ package user
 import (
 	"delicious-and-kidney/pkg/Errors"
 	"errors"
-	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -59,18 +57,113 @@ func (service *UserService) UpdateProfile(Id uint, req *UpdateUserRequest) (*Use
 	return service.GetProfile(Id)
 }
 
-func (service *UserService) CreateUser(user *User) (*UserResponse, error) {
-	_, err := service.userRepo.Create(user)
+func (service *UserService) CreateUser(req *CreateUserRequest) (*UserResponse, error) {
+	_, err := service.userRepo.FindByEmail(req.Email)
+	if err != nil {
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, err
+		}
+	} else {
+		return nil, errors.New("email already exists")
+	}
+	hashedPassword, err := hashPassword(req.Password)
 	if err != nil {
 		return nil, err
 	}
-	return &UserResponse{
-		ID:            user.Id,
-		Name:          user.Name,
-		Email:         user.Email,
-		Phone:         user.Role,
-		EmailVerified: user.EmailVerified,
-		PhoneVerified: user.PhoneVerified,
-		CreatedAt:     time.Time{},
-	}, nil
+	user := &User{
+		Name:         req.Name,
+		Email:        req.Email,
+		Phone:        req.Phone,
+		PasswordHash: hashedPassword,
+		Role:         req.Role,
+	}
+	userCreate, err := service.userRepo.Create(user)
+	if err != nil {
+		return nil, err
+	}
+
+	return ToUserResponse(userCreate), nil
+}
+
+func (service *UserService) ChangePassword(userID uint, oldPassword, newPassword string) error {
+	user, err := service.userRepo.FindById(userID)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return Errors.ErrUserNotFound
+		}
+		return err
+	}
+	err = checkPassword(user.PasswordHash, oldPassword)
+	if err != nil {
+		return Errors.ErrWrongPassword
+	}
+	if len(newPassword) < 8 {
+		return Errors.ErrWeakPassword
+	}
+	if oldPassword == newPassword {
+		return Errors.ErrSamePassword
+	}
+	newhashedPassword, err := hashPassword(newPassword)
+	if err != nil {
+		return err
+	}
+	updates := map[string]interface{}{
+		"password_hash": newhashedPassword,
+	}
+	err = service.userRepo.UpdateFields(userID, updates)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (service *UserService) DeactivateAccount(userID uint) error {
+	_, err := service.userRepo.FindById(userID)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return Errors.ErrUserNotFound
+		}
+		return err
+	}
+	updates := map[string]interface{}{
+		"is_active": false,
+	}
+	err = service.userRepo.UpdateFields(userID, updates)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (service *UserService) DeleteAccount(userID uint) error {
+	_, err := service.userRepo.FindById(userID)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return Errors.ErrUserNotFound
+		}
+		return err
+	}
+	err = service.userRepo.Delete(userID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (service *UserService) ActivateAccount(userID uint) error {
+	_, err := service.userRepo.FindById(userID)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return Errors.ErrUserNotFound
+		}
+		return err
+	}
+	updates := map[string]interface{}{
+		"is_active": true,
+	}
+	err = service.userRepo.UpdateFields(userID, updates)
+	if err != nil {
+		return err
+	}
+	return nil
 }
