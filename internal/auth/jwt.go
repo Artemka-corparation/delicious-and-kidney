@@ -35,7 +35,7 @@ func (j *JWTService) GenerateToken(userID uint, email, role string) (string, err
 			Issuer:    "food-delivery-app",
 		},
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(j.secretKey)
 }
 

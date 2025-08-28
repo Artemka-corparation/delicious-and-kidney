@@ -30,7 +30,6 @@ type Restaurant struct {
 }
 
 type CreateRestaurantRequest struct {
-	OwnerID         uint     `json:"owner_id" binding:"required"`
 	Name            string   `json:"name" binding:"required"`
 	Description     string   `json:"description"`
 	Email           string   `json:"email" validate:"omitempty,email"`

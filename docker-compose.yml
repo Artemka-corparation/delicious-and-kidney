@@ -89,3 +89,18 @@ services:
       - db
       - flyway
       - redis
+
+  restaurant:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: restaurant-service
+    env_file:
+      - .env
+    ports:
+      - "8083:8083"
+    depends_on:
+      - db
+      - flyway
+      - redis
