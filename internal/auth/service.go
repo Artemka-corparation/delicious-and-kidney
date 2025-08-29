@@ -26,10 +26,11 @@ func NewAuthService(repository *AuthRepository, userRepo user.Repository, jwtSer
 
 func (s *AuthService) Register(req *RegisterRequest) (*AuthResponse, error) {
 	existingUser, err := s.userRepo.FindByEmail(req.Email)
-	if err != nil {
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, err
 	}
 	if existingUser != nil {
+		// Пользователь найден - нельзя создать дубликат
 		return nil, errors.New("user with this email already exists")
 	}
 

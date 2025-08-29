@@ -20,7 +20,7 @@ func (h *AuthHandler) RegisterRoutes(router *gin.Engine) {
 	api := router.Group("/api/auth")
 	{
 		api.POST("/register", h.Register)
-		api.POST("ligin", h.Login)
+		api.POST("login", h.Login)
 		api.POST("/refresh", h.RefreshToken)
 		api.POST("/change-password", AuthMiddleware(h.AuthService), h.ChangePassword)
 		api.GET("/me", AuthMiddleware(h.AuthService), h.GetMe)
